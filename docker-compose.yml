@@ -11,10 +11,6 @@ services:
     restart: unless-stopped
 
 
-volumes:
-  nginx-vhost-vol:
-  nginx-share-vol:
-  # nginx-conf-vol:
 # echo "127.0.0.1 $DOMAIN" | sudo tee -a /etc/hosts
 # docker network create nginx-proxy
 networks:
