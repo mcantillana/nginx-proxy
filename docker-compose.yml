@@ -33,13 +33,12 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - nginx-certs-vol:"./certs:/etc/nginx/certs:ro"
+      - ./certs:/etc/nginx/certs:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
     restart: unless-stopped
 
 
 volumes:
-  nginx-certs-vol:
   nginx-vhost-vol:
   nginx-share-vol:
   # nginx-conf-vol:
