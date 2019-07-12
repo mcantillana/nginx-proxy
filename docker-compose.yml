@@ -1,0 +1,57 @@
+# nginx-proxy:
+#   image: jwilder/nginx-proxy
+#   restart: always
+#   ports:
+#     - "80:80"
+#     - "443:443"
+#   volumes:
+#     - /var/run/docker.sock:/tmp/docker.sock:ro
+#     - /etc/ssl/certs:/etc/nginx/certs:ro
+#     - /etc/nginx/vhost.d
+#     - /usr/share/nginx/html
+#   labels:
+#     - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
+
+# letsencrypt:
+#   image: jrcs/letsencrypt-nginx-proxy-companion
+#   restart: always
+#   volumes:
+#     - /etc/ssl/certs:/etc/nginx/certs:rw
+#     - /var/run/docker.sock:/var/run/docker.sock:ro
+#   volumes_from:
+#     - nginx-proxy:rw
+
+# www:
+#   image: nginx
+#   restart: always
+#   expose:
+#     - "80"
+#   volumes:
+#     - /root/proxy/www:/usr/share/nginx/html:ro
+#   environment:
+#     - VIRTUAL_HOST=s1.docker.acodear.cl
+#     - LETSENCRYPT_HOST=s1.docker.acodear.cl
+#     - LETSENCRYPT_EMAIL=mcantillana@portal53.cl
+
+
+version: "3.1"
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./certs:/etc/nginx/certs
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    restart: unless-stopped
+    labels:
+      - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
+
+
+# echo "127.0.0.1 $DOMAIN" | sudo tee -a /etc/hosts
+# docker network create nginx-proxy
+networks:
+  default:
+    external:
+      name: nginx-proxy
