@@ -33,7 +33,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - nginx-certs-vol:./certs:/etc/nginx/certs
+      - nginx-certs-vol:"./certs:/etc/nginx/certs:ro"
       - /var/run/docker.sock:/tmp/docker.sock:ro
     restart: unless-stopped
 
